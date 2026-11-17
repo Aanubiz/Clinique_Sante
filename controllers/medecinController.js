@@ -1,0 +1,62 @@
+import Medecin from "../models/Medecin.js";
+
+// Lister tous les medecins
+export const getAllMedecins = async (req, res) => {
+    try {
+        const medecins = await Medecin.findAll();
+        res.json(medecins);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Un seul medecin par id
+export const getMedecinById = async (req, res) => {
+    try {
+        const medecin = await Medecin.findByPk(req.params.id);
+        if (!medecin) {
+            return res.status(404).json({ message: "Medecin non trouve" });
+        }
+        res.json(medecin);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Creer un medecin
+export const createMedecin = async (req, res) => {
+    try {
+        const medecin = await Medecin.create(req.body);
+        res.status(201).json(medecin);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Modifier un medecin
+export const updateMedecin = async (req, res) => {
+    try {
+        const medecin = await Medecin.findByPk(req.params.id);
+        if (!medecin) {
+            return res.status(404).json({ message: "Medecin non trouve" });
+        }
+        await medecin.update(req.body);
+        res.json(medecin);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Supprimer un medecin
+export const deleteMedecin = async (req, res) => {
+    try {
+        const medecin = await Medecin.findByPk(req.params.id);
+        if (!medecin) {
+            return res.status(404).json({ message: "Medecin non trouve" });
+        }
+        await medecin.destroy();
+        res.json({ message: "Medecin supprime" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
