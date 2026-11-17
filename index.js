@@ -7,6 +7,7 @@ import "./models/relation.js"
 import utilisateurRoutes from "./routes/utilisateurRoutes.js"
 import patientRoutes from "./routes/patientRoutes.js"
 import medecinRoutes from "./routes/medecinRoutes.js"
+import authRoutes from "./routes/authRoutes.js"
 
 try {
     await database.authenticate();
@@ -26,7 +27,11 @@ app.use(helmet())
 app.use(cors())
 app.use(express.json())
 
+// Servir les photos uploadees
+app.use("/uploads", express.static("uploads"))
+
 // Les routes
+app.use("/api/auth", authRoutes)
 app.use("/api/utilisateurs", utilisateurRoutes)
 app.use("/api/patients", patientRoutes)
 app.use("/api/medecins", medecinRoutes)
