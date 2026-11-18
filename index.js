@@ -8,6 +8,11 @@ import utilisateurRoutes from "./routes/utilisateurRoutes.js"
 import patientRoutes from "./routes/patientRoutes.js"
 import medecinRoutes from "./routes/medecinRoutes.js"
 import authRoutes from "./routes/authRoutes.js"
+import roleRoutes from "./routes/roleRoutes.js"
+import departmentRoutes from "./routes/departmentRoutes.js"
+import rendezVousRoutes from "./routes/rendezVousRoutes.js"
+import consultationRoutes from "./routes/consultationRoutes.js"
+import journalAccesRoutes from "./routes/journalAccesRoutes.js"
 
 try {
     await database.authenticate();
@@ -35,6 +40,11 @@ app.use("/api/auth", authRoutes)
 app.use("/api/utilisateurs", utilisateurRoutes)
 app.use("/api/patients", patientRoutes)
 app.use("/api/medecins", medecinRoutes)
+app.use("/api/roles", roleRoutes)
+app.use("/api/departements", departmentRoutes)
+app.use("/api/rendez-vous", rendezVousRoutes)
+app.use("/api/consultations", consultationRoutes)
+app.use("/api/journal-acces", journalAccesRoutes)
 
 const PORT= 5000
 

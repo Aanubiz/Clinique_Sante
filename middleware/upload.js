@@ -1,6 +1,9 @@
 import multer from "multer";
+import fs from "fs";
 
 // Dossier ou les photos seront enregistrees
+fs.mkdirSync("uploads/", { recursive: true });
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "uploads/");
@@ -14,4 +17,3 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 export default upload;
-

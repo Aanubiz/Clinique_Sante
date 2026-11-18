@@ -1,14 +1,14 @@
 import express from "express";
 import { getAllPatients, getPatientById, createPatient, updatePatient, deletePatient } from "../controllers/patientController.js";
-import { validatePatient } from "../middleware/validation.js";
-import { verifierToken } from "../middleware/auth.js";
+import { validatePatient, validatePatientUpdate } from "../middleware/validation.js";
+import { verifierToken, verifierRole } from "../middleware/auth.js";
 
 const router = express.Router();
 
 router.get("/", getAllPatients);
 router.get("/:id", getPatientById);
-router.post("/", verifierToken, validatePatient, createPatient);
-router.put("/:id", verifierToken, validatePatient, updatePatient);
-router.delete("/:id", verifierToken, deletePatient);
+router.post("/", verifierToken, verifierRole("administrateur", "secretaire"), validatePatient, createPatient);
+router.put("/:id", verifierToken, verifierRole("administrateur", "secretaire", "medecin"), validatePatientUpdate, updatePatient);
+router.delete("/:id", verifierToken, verifierRole("administrateur"), deletePatient);
 
 export default router;

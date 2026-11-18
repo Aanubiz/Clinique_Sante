@@ -3,7 +3,8 @@ import database from "../config/connection.js";
 import { DataTypes } from "sequelize";
 
 const Role = database.define("Role", {
-    titre: { type: DataTypes.STRING, allowNull: false, unique: true}
+    nom: { type: DataTypes.STRING, allowNull: false, unique: true },
+    description: { type: DataTypes.STRING, allowNull: true }
 })
 
 export default Role

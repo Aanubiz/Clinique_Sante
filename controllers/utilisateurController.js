@@ -4,11 +4,10 @@ import User from "../models/User.js";
 // Lister tous les utilisateurs
 export const getAllUtilisateurs = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const offset = (page - 1) * limit;
-        const utilisateurs = await User.findAll({ limit, offset });
-        res.json(utilisateurs);
+        const page = Math.max(parseInt(req.query.page) || 1, 1);
+        const limit = Math.max(parseInt(req.query.limit) || 10, 1);
+        const utilisateurs = await User.findAndCountAll({ limit, offset: (page - 1) * limit });
+        res.json({ page, limit, total: utilisateurs.count, data: utilisateurs.rows });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -52,6 +51,9 @@ export const updateUtilisateur = async (req, res) => {
             return res.status(404).json({ message: "Utilisateur non trouve" });
         }
         const donnees = { ...req.body };
+        if (donnees.mot_de_passe) {
+            donnees.mot_de_passe = await bcrypt.hash(donnees.mot_de_passe, 10);
+        }
         if (req.file) {
             donnees.photo = req.file.filename;
         }

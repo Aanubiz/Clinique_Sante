@@ -3,11 +3,10 @@ import Medecin from "../models/Medecin.js";
 // Lister tous les medecins
 export const getAllMedecins = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const offset = (page - 1) * limit;
-        const medecins = await Medecin.findAll({ limit, offset });
-        res.json(medecins);
+        const page = Math.max(parseInt(req.query.page) || 1, 1);
+        const limit = Math.max(parseInt(req.query.limit) || 10, 1);
+        const medecins = await Medecin.findAndCountAll({ limit, offset: (page - 1) * limit });
+        res.json({ page, limit, total: medecins.count, data: medecins.rows });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

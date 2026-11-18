@@ -1,1 +1,1238 @@
-{"info":{"description":"API Clinique - Utilisateurs, Patients, Medecins. Apres le login, copier le token dans la variable de collection 'token'.","name":"Clinique_Sante","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},"item":[{"item":[{"name":"Login","request":{"body":{"mode":"raw","options":{"raw":{"language":"json"}},"raw":"{\n  \"email\": \"chaimae@test.com\",\n  \"mot_de_passe\": \"password123\"\n}"},"header":[{"key":"Content-Type","value":"application/json"}],"method":"POST","url":{"host":["{{baseUrl}}"],"path":["api","auth","login"],"raw":"{{baseUrl}}/api/auth/login"}}}],"name":"Auth"},{"item":[{"name":"Creer un utilisateur","request":{"body":{"mode":"raw","options":{"raw":{"language":"json"}},"raw":"{\n  \"nom\": \"Chaimae El Bouhali\",\n  \"email\": \"chaimae@test.com\",\n  \"mot_de_passe\": \"password123\"\n}"},"header":[{"key":"Content-Type","value":"application/json"}],"method":"POST","url":{"host":["{{baseUrl}}"],"path":["api","utilisateurs"],"raw":"{{baseUrl}}/api/utilisateurs"}}},{"name":"Lister les utilisateurs (pagination)","request":{"method":"GET","url":{"host":["{{baseUrl}}"],"path":["api","utilisateurs"],"query":[{"key":"page","value":"1"},{"key":"limit","value":"10"}],"raw":"{{baseUrl}}/api/utilisateurs?page=1&limit=10"}}},{"name":"Utilisateur par id","request":{"method":"GET","url":{"host":["{{baseUrl}}"],"path":["api","utilisateurs","1"],"raw":"{{baseUrl}}/api/utilisateurs/1"}}},{"name":"Modifier un utilisateur","request":{"auth":{"bearer":[{"key":"token","type":"string","value":"{{token}}"}],"type":"bearer"},"body":{"mode":"raw","options":{"raw":{"language":"json"}},"raw":"{\n  \"nom\": \"Chaimae El Bouhali\"\n}"},"header":[{"key":"Content-Type","value":"application/json"}],"method":"PUT","url":{"host":["{{baseUrl}}"],"path":["api","utilisateurs","1"],"raw":"{{baseUrl}}/api/utilisateurs/1"}}},{"name":"Supprimer un utilisateur","request":{"auth":{"bearer":[{"key":"token","type":"string","value":"{{token}}"}],"type":"bearer"},"method":"DELETE","url":{"host":["{{baseUrl}}"],"path":["api","utilisateurs","1"],"raw":"{{baseUrl}}/api/utilisateurs/1"}}}],"name":"Utilisateurs"},{"item":[{"name":"Creer un patient","request":{"auth":{"bearer":[{"key":"token","type":"string","value":"{{token}}"}],"type":"bearer"},"body":{"mode":"raw","options":{"raw":{"language":"json"}},"raw":"{\n  \"date_naissance\": \"1996-05-15\",\n  \"sexe\": \"F\",\n  \"telephone\": \"438-836-3509\",\n  \"adresse\": \"Ottawa\",\n  \"numero_assurance_maladie\": \"ABCD12345678\",\n  \"allergies\": \"aucune\",\n  \"antecedents\": \"aucun\"\n}"},"header":[{"key":"Content-Type","value":"application/json"}],"method":"POST","url":{"host":["{{baseUrl}}"],"path":["api","patients"],"raw":"{{baseUrl}}/api/patients"}}},{"name":"Lister les patients (pagination)","request":{"method":"GET","url":{"host":["{{baseUrl}}"],"path":["api","patients"],"query":[{"key":"page","value":"1"},{"key":"limit","value":"5"}],"raw":"{{baseUrl}}/api/patients?page=1&limit=5"}}},{"name":"Patient par id","request":{"method":"GET","url":{"host":["{{baseUrl}}"],"path":["api","patients","1"],"raw":"{{baseUrl}}/api/patients/1"}}},{"name":"Modifier un patient","request":{"auth":{"bearer":[{"key":"token","type":"string","value":"{{token}}"}],"type":"bearer"},"body":{"mode":"raw","options":{"raw":{"language":"json"}},"raw":"{\n  \"telephone\": \"438-836-3510\"\n}"},"header":[{"key":"Content-Type","value":"application/json"}],"method":"PUT","url":{"host":["{{baseUrl}}"],"path":["api","patients","1"],"raw":"{{baseUrl}}/api/patients/1"}}},{"name":"Supprimer un patient","request":{"auth":{"bearer":[{"key":"token","type":"string","value":"{{token}}"}],"type":"bearer"},"method":"DELETE","url":{"host":["{{baseUrl}}"],"path":["api","patients","1"],"raw":"{{baseUrl}}/api/patients/1"}}}],"name":"Patients"},{"item":[{"name":"Creer un medecin","request":{"auth":{"bearer":[{"key":"token","type":"string","value":"{{token}}"}],"type":"bearer"},"body":{"mode":"raw","options":{"raw":{"language":"json"}},"raw":"{\n  \"numero_licence\": \"MED12345\",\n  \"telephone\": \"438-836-3509\"\n}"},"header":[{"key":"Content-Type","value":"application/json"}],"method":"POST","url":{"host":["{{baseUrl}}"],"path":["api","medecins"],"raw":"{{baseUrl}}/api/medecins"}}},{"name":"Lister les medecins (pagination)","request":{"method":"GET","url":{"host":["{{baseUrl}}"],"path":["api","medecins"],"query":[{"key":"page","value":"1"},{"key":"limit","value":"10"}],"raw":"{{baseUrl}}/api/medecins?page=1&limit=10"}}},{"name":"Medecin par id","request":{"method":"GET","url":{"host":["{{baseUrl}}"],"path":["api","medecins","1"],"raw":"{{baseUrl}}/api/medecins/1"}}},{"name":"Modifier un medecin","request":{"auth":{"bearer":[{"key":"token","type":"string","value":"{{token}}"}],"type":"bearer"},"body":{"mode":"raw","options":{"raw":{"language":"json"}},"raw":"{\n  \"telephone\": \"438-836-3510\"\n}"},"header":[{"key":"Content-Type","value":"application/json"}],"method":"PUT","url":{"host":["{{baseUrl}}"],"path":["api","medecins","1"],"raw":"{{baseUrl}}/api/medecins/1"}}},{"name":"Supprimer un medecin","request":{"auth":{"bearer":[{"key":"token","type":"string","value":"{{token}}"}],"type":"bearer"},"method":"DELETE","url":{"host":["{{baseUrl}}"],"path":["api","medecins","1"],"raw":"{{baseUrl}}/api/medecins/1"}}}],"name":"Medecins"}],"variable":[{"key":"baseUrl","value":"http://localhost:5000"},{"key":"token","value":""}]}
+{
+  "info": {
+    "description": "API Clinique - Utilisateurs, Patients, Medecins, Roles, Departements, Rendez-vous, Consultations et Journal acces.",
+    "name": "Clinique_Sante",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"email\": \"chaimae@test.com\",\n  \"mot_de_passe\": \"password123\"\n}"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ],
+              "raw": "{{baseUrl}}/api/auth/login"
+            }
+          }
+        }
+      ],
+      "name": "Auth"
+    },
+    {
+      "item": [
+        {
+          "name": "Creer un utilisateur",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"nom\": \"Chaimae El Bouhali\",\n  \"email\": \"chaimae@test.com\",\n  \"mot_de_passe\": \"password123\"\n}"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "utilisateurs"
+              ],
+              "raw": "{{baseUrl}}/api/utilisateurs"
+            }
+          }
+        },
+        {
+          "name": "Lister les utilisateurs (pagination)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "utilisateurs"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ],
+              "raw": "{{baseUrl}}/api/utilisateurs?page=1&limit=10"
+            }
+          }
+        },
+        {
+          "name": "Utilisateur par id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "utilisateurs",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/utilisateurs/1"
+            }
+          }
+        },
+        {
+          "name": "Modifier un utilisateur",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ],
+              "type": "bearer"
+            },
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"nom\": \"Chaimae El Bouhali\"\n}"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "utilisateurs",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/utilisateurs/1"
+            }
+          }
+        },
+        {
+          "name": "Supprimer un utilisateur",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ],
+              "type": "bearer"
+            },
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "utilisateurs",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/utilisateurs/1"
+            }
+          }
+        }
+      ],
+      "name": "Utilisateurs"
+    },
+    {
+      "item": [
+        {
+          "name": "Creer un patient",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ],
+              "type": "bearer"
+            },
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"date_naissance\": \"1996-05-15\",\n  \"sexe\": \"F\",\n  \"telephone\": \"438-836-3509\",\n  \"adresse\": \"Ottawa\",\n  \"numero_assurance_maladie\": \"ABCD12345678\",\n  \"allergies\": \"aucune\",\n  \"antecedents\": \"aucun\"\n}"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "patients"
+              ],
+              "raw": "{{baseUrl}}/api/patients"
+            }
+          }
+        },
+        {
+          "name": "Lister les patients (pagination)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "patients"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ],
+              "raw": "{{baseUrl}}/api/patients?page=1&limit=5"
+            }
+          }
+        },
+        {
+          "name": "Patient par id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "patients",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/patients/1"
+            }
+          }
+        },
+        {
+          "name": "Modifier un patient",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ],
+              "type": "bearer"
+            },
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"telephone\": \"438-836-3510\"\n}"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "patients",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/patients/1"
+            }
+          }
+        },
+        {
+          "name": "Supprimer un patient",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ],
+              "type": "bearer"
+            },
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "patients",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/patients/1"
+            }
+          }
+        }
+      ],
+      "name": "Patients"
+    },
+    {
+      "item": [
+        {
+          "name": "Creer un medecin",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ],
+              "type": "bearer"
+            },
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"numero_licence\": \"MED12345\",\n  \"telephone\": \"438-836-3509\"\n}"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "medecins"
+              ],
+              "raw": "{{baseUrl}}/api/medecins"
+            }
+          }
+        },
+        {
+          "name": "Lister les medecins (pagination)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "medecins"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ],
+              "raw": "{{baseUrl}}/api/medecins?page=1&limit=10"
+            }
+          }
+        },
+        {
+          "name": "Medecin par id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "medecins",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/medecins/1"
+            }
+          }
+        },
+        {
+          "name": "Modifier un medecin",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ],
+              "type": "bearer"
+            },
+            "body": {
+              "mode": "raw",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              },
+              "raw": "{\n  \"telephone\": \"438-836-3510\"\n}"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "medecins",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/medecins/1"
+            }
+          }
+        },
+        {
+          "name": "Supprimer un medecin",
+          "request": {
+            "auth": {
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ],
+              "type": "bearer"
+            },
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "medecins",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/medecins/1"
+            }
+          }
+        }
+      ],
+      "name": "Medecins"
+    },
+    {
+      "name": "Roles",
+      "item": [
+        {
+          "name": "Lister les roles",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles"
+              ],
+              "raw": "{{baseUrl}}/api/roles"
+            }
+          }
+        },
+        {
+          "name": "Role par id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/roles/1"
+            }
+          }
+        },
+        {
+          "name": "Creer un role",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"secretaire\",\n  \"description\": \"Acces administratif\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles"
+              ],
+              "raw": "{{baseUrl}}/api/roles"
+            }
+          }
+        },
+        {
+          "name": "Modifier un role",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Role mis a jour\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/roles/1"
+            }
+          }
+        },
+        {
+          "name": "Supprimer un role",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "roles",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/roles/1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Departements",
+      "item": [
+        {
+          "name": "Lister les departements",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "departements"
+              ],
+              "raw": "{{baseUrl}}/api/departements"
+            }
+          }
+        },
+        {
+          "name": "Departement par id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "departements",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/departements/1"
+            }
+          }
+        },
+        {
+          "name": "Creer un departement",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nom\": \"Cardiologie\",\n  \"description\": \"Service de cardiologie\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "departements"
+              ],
+              "raw": "{{baseUrl}}/api/departements"
+            }
+          }
+        },
+        {
+          "name": "Modifier un departement",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Description mise a jour\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "departements",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/departements/1"
+            }
+          }
+        },
+        {
+          "name": "Supprimer un departement",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "departements",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/departements/1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rendez-vous",
+      "item": [
+        {
+          "name": "Lister les rendez-vous",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "rendez-vous"
+              ],
+              "raw": "{{baseUrl}}/api/rendez-vous"
+            }
+          }
+        },
+        {
+          "name": "Rendez-vous par id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "rendez-vous",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/rendez-vous/1"
+            }
+          }
+        },
+        {
+          "name": "Creer un rendez-vous",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2026-12-01\",\n  \"heure\": \"09:30:00\",\n  \"statut\": \"confirme\",\n  \"patientId\": 1,\n  \"medecinId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "rendez-vous"
+              ],
+              "raw": "{{baseUrl}}/api/rendez-vous"
+            }
+          }
+        },
+        {
+          "name": "Modifier un rendez-vous",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"statut\": \"termine\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "rendez-vous",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/rendez-vous/1"
+            }
+          }
+        },
+        {
+          "name": "Supprimer un rendez-vous",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "rendez-vous",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/rendez-vous/1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Consultations",
+      "item": [
+        {
+          "name": "Lister les consultations",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "consultations"
+              ],
+              "raw": "{{baseUrl}}/api/consultations"
+            }
+          }
+        },
+        {
+          "name": "Consultation par id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "consultations",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/consultations/1"
+            }
+          }
+        },
+        {
+          "name": "Creer une consultation",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Examen general\",\n  \"instructions\": \"Prendre le medicament pendant 7 jours\",\n  \"rendezVousId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "consultations"
+              ],
+              "raw": "{{baseUrl}}/api/consultations"
+            }
+          }
+        },
+        {
+          "name": "Modifier une consultation",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"instructions\": \"Instructions mises a jour\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "consultations",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/consultations/1"
+            }
+          }
+        },
+        {
+          "name": "Supprimer une consultation",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "consultations",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/consultations/1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Journal acces",
+      "item": [
+        {
+          "name": "Lister le journal d acces",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "journal-acces"
+              ],
+              "raw": "{{baseUrl}}/api/journal-acces"
+            }
+          }
+        },
+        {
+          "name": "Entree du journal par id",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "journal-acces",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/journal-acces/1"
+            }
+          }
+        },
+        {
+          "name": "Creer une entree",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"Consultation du dossier patient\",\n  \"utilisateurId\": 1,\n  \"patientId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "journal-acces"
+              ],
+              "raw": "{{baseUrl}}/api/journal-acces"
+            }
+          }
+        },
+        {
+          "name": "Supprimer une entree",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "type": "string",
+                  "value": "{{token}}"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "url": {
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "journal-acces",
+                "1"
+              ],
+              "raw": "{{baseUrl}}/api/journal-acces/1"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}
